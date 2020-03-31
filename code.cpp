@@ -1,5 +1,5 @@
 //李一，编写了所需的头文件
-#include<graphics.h>
+#include<graphics.h>//安装了EASY X才能打开这个头文件。
 #include<stdio.h>
 #include<stdlib.h>
 #include<windows.h>
