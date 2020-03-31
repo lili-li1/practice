@@ -1,4 +1,4 @@
-//李一
+//李一，编写了所需的头文件
 #include<graphics.h>
 #include<stdio.h>
 #include<stdlib.h>
@@ -14,7 +14,7 @@ MOUSEMSG *_m = &m;
 char s1[20] = "速度：1", s2[20] = " ";    //速度值字符串s1,s2
 int Speed = 125;			// 游戏速度（毫秒）
 
-//王一
+//王一，定义要用到的若干个函数，以及 main 函数的编写
 void start();   //世界初始化
 void kongjian(int x1, int x2, char *s);   //控件函数
 void zuotu(MOUSEMSG *_m);   //作图
@@ -45,7 +45,7 @@ int main()
 	return 0;
 }
 
-//李二
+//李二，完成了 start() 和 jianpanjiankong()函数的编写
 void start()
 {
 	memset(world, 0, 102 * 202 * sizeof(bool));   //初始化world数组
@@ -115,7 +115,7 @@ void jianpanjiankong()   //键盘监控
 		}
 	}
 }
-//王二
+//王二，完成了 huitushebei() ，shubiao()，zuotu(MOUSEMSG *_m)函数的编写
 void huitushebei()     //建立绘图设备
 {
 	// 调整世界图案的大小
@@ -233,7 +233,7 @@ void zuotu(MOUSEMSG *_m)   //作图
 	}
 
 }
-//李三
+//李三 完成kongjian(int x1, int x2, char *s)，shengsi()函数的编写
 void kongjian(int x1, int x2, char *s)     //控件函数
 {
 	if (x1 == 0 && x2 == 0)  //若x1,x2==0,则初始化控件
@@ -304,7 +304,7 @@ void shengsi()  //生死判断
 
 	
 }
-//王三
+//王三，完成 打印，输入，输出函数
 void dy_world()   //打印世界
 {
 	int x, y;
