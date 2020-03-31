@@ -304,3 +304,88 @@ void shengsi()  //生死判断
 
 	
 }
+//王三
+void dy_world()   //打印世界
+{
+	int x, y;
+	int i, j;
+	for (i = 1; i <101; i++)
+	{
+		for (j = 1; j <201; j++)     //两层循环根据方格状态存储器处理方格
+		{
+			x = (j - 1) * 9;
+			y = (i - 1) * 9+26;
+			putimage(x, y, world[i][j] ? &imgLive : &imgEmpty);   //用于在指定位置，当前设备上绘制指定图像
+		}
+	}
+}
+
+void RandWorld()   // 创建一个细胞随机分布的世界
+{
+	
+	srand((unsigned)time(NULL));  // 设置随机种子
+
+	for (int i = 1; i < 101; i++)
+	for (int j = 1; j <= 201; j++)
+		world[i][j] = rand() % 2;
+}
+void shuru()   //输入函数
+{
+	FILE *fp;
+	if ((fp = fopen("data", "r")) == NULL)        //打开文件
+	{
+		setcolor(LIGHTRED);    // 设置字体颜色为亮红色
+		outtextxy(1600, 5, "错误！"); //打印文字
+		exit(0);
+	}
+
+	int i, j;
+	char ch;
+	for (i = 1; i <101; i++)   //两层循环赋值给tu[][]
+	{
+		for (j =1; j<201; j++)
+		{
+			ch=fgetc(fp);
+			switch (ch)
+			{
+			case 48: world[i][j]=0; break;       //设置方格状态
+			case 49: world[i][j] = 1; break;    //设置方格状态
+			}
+
+		}
+	}
+	dy_world();  //绘制世界
+	setcolor(LIGHTRED);    // 设置字体颜色为亮红色
+	outtextxy(1600, 5, "加载成功！"); //打印文字
+
+
+}
+void shuchu()    //输出函数
+{
+	FILE *fp;   //定义文件指针
+	if ((fp = fopen("data", "w")) == NULL)       //打开文件并使fp指向文件
+	{
+		setcolor(LIGHTRED);    // 设置字体颜色为亮红色
+		outtextxy(1600, 5, "错误！"); //打印文字
+		exit(0);
+	}
+
+	char ch;
+	int i, j;
+	for (i = 1; i<101; i++)          //用两层循环向文件中输入数据
+	{
+		for (j = 1; j <201; j++)
+		{
+			switch (world[i][j])
+			{
+			case 0: ch = '0'; break;
+			case 1: ch = '1'; break;
+			}
+			fputc(ch, fp);
+		}
+	}
+	fclose(fp);      //关闭
+
+	setcolor(LIGHTRED);    // 设置字体颜色为亮红色
+	outtextxy(1600, 5, "保存成功！"); //打印文字
+}
