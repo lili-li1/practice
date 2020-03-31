@@ -233,3 +233,74 @@ void zuotu(MOUSEMSG *_m)   //作图
 	}
 
 }
+//李三
+void kongjian(int x1, int x2, char *s)     //控件函数
+{
+	if (x1 == 0 && x2 == 0)  //若x1,x2==0,则初始化控件
+	{
+		setcolor(BLACK);// 设置字体颜色为黑色
+		setfillcolor(WHITE);   //设置填充颜色为白色
+
+		fillrectangle(2, 2, 63, 23);  //画白色填充矩形
+		outtextxy(15, 5, "清空"); //打印文字
+
+		fillrectangle(72, 2, 133, 23);  //画白色填充矩形
+		outtextxy(85, 5, "保存"); //打印文字
+
+		fillrectangle(142, 2, 203, 23);  //画白色填充矩形
+		outtextxy(155, 5, "加载"); //打印文字
+
+		fillrectangle(212, 2, 273, 23);  //画白色填充矩形
+		outtextxy(225, 5, "随机"); //打印文字
+
+		fillrectangle(282, 2, 343, 23);  //画白色填充矩形
+		outtextxy(295, 5, "结束"); //打印文字
+
+		setfillcolor(BLACK);   //设置填充颜色为黑色
+	}
+	if (x1 != 0 && x2 != 0)    //控件反馈效果
+	{
+		MOUSEMSG m;    //定义鼠标消息结构体的变量
+
+		setcolor(BLACK);// 设置字体颜色为黑色
+
+		setfillcolor(LIGHTGRAY);   //设置填充颜色为浅灰色
+		fillrectangle(x1, 2, x2, 23);  //画浅灰色填充矩形
+
+		setbkcolor(LIGHTGRAY);// 设置背景色为浅灰色
+		outtextxy(x1 + 15, 5, s); //打印文字，与初始化相比向右移动2像素，实现动画效果
+		setbkcolor(WHITE);// 设置背景色为白色
+
+		do  { m = GetMouseMsg(); } while (m.mkLButton || m.mkRButton);
+
+		setfillcolor(WHITE);   //设置填充颜色为白色
+		fillrectangle(x1, 2, x2, 23);  //画白色填充矩形
+		outtextxy(x1 + 15 - 2, 5, s); //打印文字，返回初始化位置
+
+		setfillcolor(BLACK);   //设置填充颜色为黑色
+	}
+}
+void shengsi()  //生死判断
+{
+	__int8 tmp[102][202] = { 0 };		// 临时数组
+	int i, j;
+	int sum=0;
+	for (i = 1; i < 101;i++)
+	for (j = 1; j < 201; j++)
+	{
+		// 计算周围活着的生命数量
+		sum = world[i + 1][j] + world[i + 1][j - 1] + world[i][j - 1] + world[i- 1][j - 1]
+			+ world[i - 1][j] + world[i - 1][j + 1] + world[i][j + 1] + world[i + 1][j + 1];
+
+		// 计算当前位置的生命状态
+		switch (sum)
+		{
+		case 3:		tmp[i][j] = 1;				break;
+		case 2:		tmp[i][j] = world[i][j];	break;
+		default:	tmp[i][j] = 0;				break;
+		}
+	}
+	memcpy(world, tmp, 102 * 202 * sizeof(bool));  //从tmp中复制102 * 102 * sizeof(__int8)长度的数据给world
+
+	
+}
