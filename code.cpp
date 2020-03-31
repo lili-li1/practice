@@ -384,7 +384,7 @@ void shuchu()    //输出函数
 			fputc(ch, fp);
 		}
 	}
-	fclose(fp);      //关闭文件
+	fclose(fp);      //关闭
 
 	setcolor(LIGHTRED);    // 设置字体颜色为亮红色
 	outtextxy(1600, 5, "保存成功！"); //打印文字
