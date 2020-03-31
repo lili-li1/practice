@@ -1,4 +1,4 @@
-//李
+//李一
 #include<graphics.h>
 #include<stdio.h>
 #include<stdlib.h>
@@ -14,7 +14,7 @@ MOUSEMSG *_m = &m;
 char s1[20] = "速度：1", s2[20] = " ";    //速度值字符串s1,s2
 int Speed = 125;			// 游戏速度（毫秒）
 
-//王
+//王一
 void start();   //世界初始化
 void kongjian(int x1, int x2, char *s);   //控件函数
 void zuotu(MOUSEMSG *_m);   //作图
@@ -45,7 +45,7 @@ int main()
 	return 0;
 }
 
-//李
+//李二
 void start()
 {
 	memset(world, 0, 102 * 202 * sizeof(bool));   //初始化world数组
@@ -114,4 +114,122 @@ void jianpanjiankong()   //键盘监控
 			break;
 		}
 	}
+}
+//王二
+void huitushebei()     //建立绘图设备
+{
+	// 调整世界图案的大小
+	Resize(&imgLive, 9, 9);    //
+	Resize(&imgEmpty, 9, 9);   //用于调整指定绘图设备的尺寸。
+
+	// 绘制有生命世界的图案
+	SetWorkingImage(&imgLive);   //用于设定当前的绘图设备。
+	setfillcolor(BLACK);        //设置当前填充颜色为黑色
+	setcolor(LIGHTGRAY);        //设置边框颜色为白色
+	fillrectangle(0, 0, 8, 8);    //打印黑色方格，有边框
+
+	// 绘制无生命世界的图案
+	SetWorkingImage(&imgEmpty);
+	setfillcolor(WHITE);        //设置当前填充颜色为白色
+	solidrectangle(0, 0, 8, 8);    //打印白色方格
+
+	// 恢复对默认窗口的绘图
+	SetWorkingImage(NULL);
+}
+void shubiao()    //鼠标监控与操作
+{
+	
+
+	int x1 = 0, x2 = 0;      //x1,x2存储单个控件的左右边的X坐标位置
+	while (MouseHit())   //检测是否有鼠标消息
+	{
+		m = GetMouseMsg();       //获取鼠标消息
+		if (m.mkLButton || m.mkRButton)   //鼠标左右键是否有按下
+		{
+
+			if (m.y > 26)      //m.y>26说明鼠标位于作图区，否则位于控件区
+			{
+				do
+				{
+					if (m.y > 26)
+						zuotu(_m);  //将鼠标信息传递给做图函数
+					m = GetMouseMsg();       //获取鼠标消息
+				} while (m.mkLButton || m.mkRButton);   //直到松开按键才结束作图
+			}
+			else      //判断鼠标位于哪个控件
+			{
+				if (2 < m.x&&m.x < 63)
+				{
+					x1 = 2; x2 = 63;      //第一个控件的位置
+					char s[] = "清空";
+					kongjian(x1, x2, s);  //实现控件动画
+					x1 = 0; x2 = 0;
+
+					start();
+
+				}
+				if (72 < m.x&&m.x < 133)
+				{
+					x1 = 72; x2 = 133;     //第二个控件的位置
+					char s[] = "保存";
+					kongjian(x1, x2, s);  //实现控件动画
+					x1 = 0;  x2 = 0;
+
+					shuchu();     //输出操作
+
+				}
+				if (142 < m.x&&m.x < 203)
+				{
+					x1 = 142; x2 = 203;     //第三个控件的位置
+					char s[] = "加载";
+					kongjian(x1, x2, s);  //实现控件动画
+					x1 = 0;  x2 = 0;
+
+					shuru();     //输入操作
+				}
+				if (212 < m.x&&m.x < 273)
+				{
+					x1 = 212; x2 = 273;     //第三个控件的位置
+					char s[] = "随机";
+					kongjian(x1, x2, s);  //实现控件动画
+					x1 = 0;  x2 = 0;
+
+					RandWorld();   // 创建一个细胞随机分布的世界
+					dy_world();			// 绘制世界
+
+				}
+				if (282 < m.x&&m.x < 343)
+				{
+					x1 = 142; x2 = 203;     //第三个控件的位置
+					char s[] = "结束";
+					kongjian(x1, x2, s);  //实现控件动画
+					x1 = 0;  x2 = 0;
+
+					exit(0);     //结束程序
+				}
+
+			};
+		}
+	}
+	FlushMouseMsgBuffer();   //清空鼠标消息缓冲区
+}
+void zuotu(MOUSEMSG *_m)   //作图
+{
+	int x, y, xb, yb;
+
+	xb = _m->x / 9+1;
+	yb = (_m->y - 26) / 9+1;
+	x = (xb - 1) * 9;
+	y = (yb - 1) * 9 + 26;
+	if (_m->mkLButton)
+	{
+		putimage(x, y, &imgLive);   //按左键时，打印方格，有边框
+		world[yb][xb] = 1;
+	}
+	if (_m->mkRButton)
+	{
+		putimage(x, y, &imgEmpty);	//按右键时，删除方格
+		world[yb][xb] = 0;
+	}
+
 }
