@@ -44,3 +44,74 @@ int main()
 	}
 	return 0;
 }
+
+//李
+void start()
+{
+	memset(world, 0, 102 * 202 * sizeof(bool));   //初始化world数组
+	setbkcolor(WHITE);// 设置背景色为白色
+	cleardevice();// 用背景色清空屏幕
+	setfillcolor(BLACK);   //设置填充颜色为黑色
+	kongjian(0, 0, " ");
+	setcolor(BROWN);    // 设置字体颜色为棕色
+	outtextxy(900, 5, s1); //打印速度值
+	setcolor(BLACK);    // 设置字体颜色为黑色
+	outtextxy(400, 5, "Q/清空  W/保存  E/加载  S/随机"); //打印文字
+}
+void jianpanjiankong()   //键盘监控
+{
+	if (_kbhit())   
+	{
+		char c = _getch();    //读取键盘    //Speed等于450时，此处暂停
+
+		if (c >='0' && c <= '9')
+		{
+			sprintf(s2, "%d", c - '0');      //将速度值写入字符数组s2中
+			strcpy(s1, "速度：");     //初始化s1
+			strcat(s1, s2);          //将s2连接到s1后
+			setcolor(BROWN);    // 设置字体颜色为棕色
+			outtextxy(900, 5, s1); //打印速度值
+			if (c == '0')
+				Speed = 900;
+			else
+				Speed = ('9' - c) * 25;  //根据输入数字调整速度
+		}
+		switch (c)
+		{
+		case 'q':
+			start();  //世界初始化
+			break;
+		case 'w':
+			shuchu();     //输出操作
+			break;
+		case 'e':
+			shuru();     //输入操作
+			break;
+
+		case 's':
+			RandWorld();   // 创建一个细胞随机分布的世界
+			dy_world();			// 绘制世界
+			break;
+
+		case ' ':
+			c = '/';
+			setcolor(LIGHTRED);    // 设置字体颜色为亮红色
+			outtextxy(1400, 5, "暂停"); //打印文字
+			while (c != ' ')
+			{
+				shubiao();  //鼠标监控与操作
+				Sleep(500);
+				if (_kbhit())
+				{
+					c = _getch();
+					dy_world();			// 绘制世界	
+					shengsi();			// 生死判断	
+				}
+			}
+			setfillcolor(WHITE);        //设置当前填充颜色为白色
+			solidrectangle(1400, 5, 1450, 20);    //打印白色方格,覆盖“暂停”文字
+			setfillcolor(BLACK);        //设置当前填充颜色为黑色
+			break;
+		}
+	}
+}
